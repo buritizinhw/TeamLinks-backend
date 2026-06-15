@@ -14,6 +14,7 @@ public record LinkResponseDTO(
     String url,
     String name,
     String description,
+    long clickCount,
     Long projectId,
     String projectName,
     Set<String> tagNames,
@@ -28,6 +29,7 @@ public record LinkResponseDTO(
             link.getUrl(),
             link.getName(),
             link.getDescription(),
+            link.getClickCount(),
             link.getProject().getId(),
             link.getProject().getName(),
             link.getTags().stream()

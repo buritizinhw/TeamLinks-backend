@@ -37,6 +37,9 @@ public class Link {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Column(nullable = false)
+    private long clickCount = 0;
+
     @ManyToMany
     @JoinTable(
             name = "link_tags",

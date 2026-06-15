@@ -65,6 +65,15 @@ public class LinkServiceImpl implements LinkService {
     }
 
     @Override
+    @Transactional
+    public LinkResponseDTO resolveForRedirect(String shortCode) {
+        Link link = linkRepository.findByShortCode(shortCode.trim())
+                .orElseThrow(() -> new EntityNotFoundException("Link com código '" + shortCode + "' não encontrado."));
+        link.setClickCount(link.getClickCount() + 1);
+        return toDto(linkRepository.save(link));
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Page<LinkResponseDTO> findByProjectId(Long projectId, Pageable pageable) {
         if (!projectRepository.existsById(projectId)) {

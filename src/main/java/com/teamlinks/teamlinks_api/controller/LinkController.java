@@ -28,6 +28,11 @@ public class LinkController {
         return ResponseEntity.ok(linkService.findByShortCode(shortCode));
     }
 
+    @GetMapping("/ref/{shortCode}/redirect")
+    public ResponseEntity<LinkResponseDTO> redirect(@PathVariable String shortCode) {
+        return ResponseEntity.ok(linkService.resolveForRedirect(shortCode));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<LinkResponseDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok(linkService.findById(id));

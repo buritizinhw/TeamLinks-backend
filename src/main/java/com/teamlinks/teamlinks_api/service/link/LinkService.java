@@ -13,6 +13,8 @@ public interface LinkService {
 
     LinkResponseDTO findByShortCode(String shortCode);
 
+    LinkResponseDTO resolveForRedirect(String shortCode);
+
     Page<LinkResponseDTO> findByProjectId(Long projectId, Pageable pageable);
 
     LinkResponseDTO update(Long id, LinkRequestDTO dto);
