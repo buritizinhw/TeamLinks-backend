@@ -17,6 +17,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    mem_limit: 512m
+    cpus: 0.50
 
   api:
     build: .
@@ -34,6 +36,8 @@ services:
         condition: service_healthy
     networks:
       - teamlinks-network
+    mem_limit: 768m
+    cpus: 0.75
 
 volumes:
   postgres_data:
