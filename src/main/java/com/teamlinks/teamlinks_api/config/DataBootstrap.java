@@ -42,17 +42,24 @@ public class DataBootstrap implements CommandLineRunner {
         Map<String, Tag> tagMap = tags.stream()
                 .collect(Collectors.toMap(Tag::getName, t -> t));
 
-        Client teamLinksClient = createClient("TeamLinks Corp");
-        Client ecommerceClient = createClient("E-commerce Ltda");
+        Client teamLinksClient = createClient("TeamLinks");
+        Client ecommerceClient = createClient("E-commerce API");
 
         Project teamLinks = createProject("TeamLinks", "Sistema de gerenciamento de links para projetos", teamLinksClient);
         Project ecommerce = createProject("E-commerce API", "API REST para plataforma de e-commerce", ecommerceClient);
 
-        createLink("GitHub - TeamLinks",
+        createLink("GitHub - TeamLinks backend",
                 "https://github.com/buritizinhw/TeamLinks-backend",
                 "Repositório principal do projeto",
                 teamLinks,
                 Set.of(tagMap.get("repositorio"), tagMap.get("backend")));
+        
+        createLink("GitHub - TeamLinks frontend",
+                "https://github.com/buritizinhw/TeamLinks-frontend",
+                "Repositório do frontend do projeto",
+                teamLinks,
+                Set.of(tagMap.get("repositorio"), tagMap.get("frontend")));
+
 
         createLink("Documentação Spring Boot",
                 "https://docs.spring.io/spring-boot/reference/",
