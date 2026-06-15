@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.teamlinks.teamlinks_api.entity.Link;
 import com.teamlinks.teamlinks_api.entity.Project;
+import com.teamlinks.teamlinks_api.entity.ProjectStatus;
 import com.teamlinks.teamlinks_api.entity.Tag;
 import com.teamlinks.teamlinks_api.repository.LinkRepository;
 import com.teamlinks.teamlinks_api.repository.ProjectRepository;
@@ -39,8 +40,8 @@ public class DataBootstrap implements CommandLineRunner {
         Map<String, Tag> tagMap = tags.stream()
                 .collect(Collectors.toMap(Tag::getName, t -> t));
 
-        Project teamLinks = createProject("TeamLinks", "Sistema de gerenciamento de links para projetos");
-        Project ecommerce = createProject("E-commerce API", "API REST para plataforma de e-commerce");
+        Project teamLinks = createProject("TeamLinks", "Sistema de gerenciamento de links para projetos", ProjectStatus.EM_ANDAMENTO);
+        Project ecommerce = createProject("E-commerce API", "API REST para plataforma de e-commerce", ProjectStatus.INICIAR);
 
         createLink("GitHub - TeamLinks",
                 "https://github.com/teamlinks/teamlinks",
@@ -88,10 +89,11 @@ public class DataBootstrap implements CommandLineRunner {
                 .toList();
     }
 
-    private Project createProject(String name, String description) {
+    private Project createProject(String name, String description, ProjectStatus status) {
         Project project = new Project();
         project.setName(name);
         project.setDescription(description);
+        project.setStatus(status);
         return projectRepository.save(project);
     }
 

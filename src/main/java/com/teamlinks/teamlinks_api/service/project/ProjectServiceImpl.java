@@ -3,6 +3,7 @@ package com.teamlinks.teamlinks_api.service.project;
 import com.teamlinks.teamlinks_api.dto.project.ProjectRequestDTO;
 import com.teamlinks.teamlinks_api.dto.project.ProjectResponseDTO;
 import com.teamlinks.teamlinks_api.entity.Project;
+import com.teamlinks.teamlinks_api.entity.ProjectStatus;
 import com.teamlinks.teamlinks_api.repository.ProjectRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class ProjectServiceImpl implements ProjectService {
         var project = new Project();
         project.setName(dto.name());
         project.setDescription(dto.description());
+        project.setStatus(dto.status() != null ? dto.status() : ProjectStatus.INICIAR);
 
         return ProjectResponseDTO.fromEntity(projectRepository.save(project));
     }
@@ -59,6 +61,9 @@ public class ProjectServiceImpl implements ProjectService {
 
         project.setName(dto.name());
         project.setDescription(dto.description());
+        if (dto.status() != null) {
+            project.setStatus(dto.status());
+        }
 
         return ProjectResponseDTO.fromEntity(projectRepository.save(project));
     }

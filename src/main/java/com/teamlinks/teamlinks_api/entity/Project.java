@@ -31,6 +31,10 @@ public class Project {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private ProjectStatus status = ProjectStatus.INICIAR;
+
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Link> links = new ArrayList<>();
 
