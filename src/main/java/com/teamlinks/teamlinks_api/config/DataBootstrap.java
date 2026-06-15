@@ -8,10 +8,11 @@ import java.util.stream.Collectors;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import com.teamlinks.teamlinks_api.entity.Client;
 import com.teamlinks.teamlinks_api.entity.Link;
 import com.teamlinks.teamlinks_api.entity.Project;
-import com.teamlinks.teamlinks_api.entity.ProjectStatus;
 import com.teamlinks.teamlinks_api.entity.Tag;
+import com.teamlinks.teamlinks_api.repository.ClientRepository;
 import com.teamlinks.teamlinks_api.repository.LinkRepository;
 import com.teamlinks.teamlinks_api.repository.ProjectRepository;
 import com.teamlinks.teamlinks_api.repository.TagRepository;
@@ -26,6 +27,7 @@ import org.springframework.core.annotation.Order;
 public class DataBootstrap implements CommandLineRunner {
 
     private final TagRepository tagRepository;
+    private final ClientRepository clientRepository;
     private final ProjectRepository projectRepository;
     private final LinkRepository linkRepository;
     private final ShortCodeGenerator shortCodeGenerator;
@@ -40,11 +42,14 @@ public class DataBootstrap implements CommandLineRunner {
         Map<String, Tag> tagMap = tags.stream()
                 .collect(Collectors.toMap(Tag::getName, t -> t));
 
-        Project teamLinks = createProject("TeamLinks", "Sistema de gerenciamento de links para projetos", ProjectStatus.EM_ANDAMENTO);
-        Project ecommerce = createProject("E-commerce API", "API REST para plataforma de e-commerce", ProjectStatus.INICIAR);
+        Client teamLinksClient = createClient("TeamLinks Corp");
+        Client ecommerceClient = createClient("E-commerce Ltda");
+
+        Project teamLinks = createProject("TeamLinks", "Sistema de gerenciamento de links para projetos", teamLinksClient);
+        Project ecommerce = createProject("E-commerce API", "API REST para plataforma de e-commerce", ecommerceClient);
 
         createLink("GitHub - TeamLinks",
-                "https://github.com/teamlinks/teamlinks",
+                "https://github.com/buritizinhw/TeamLinks-backend",
                 "Repositório principal do projeto",
                 teamLinks,
                 Set.of(tagMap.get("repositorio"), tagMap.get("backend")));
@@ -89,11 +94,17 @@ public class DataBootstrap implements CommandLineRunner {
                 .toList();
     }
 
-    private Project createProject(String name, String description, ProjectStatus status) {
+    private Client createClient(String name) {
+        Client client = new Client();
+        client.setName(name);
+        return clientRepository.save(client);
+    }
+
+    private Project createProject(String name, String description, Client client) {
         Project project = new Project();
         project.setName(name);
         project.setDescription(description);
-        project.setStatus(status);
+        project.setClient(client);
         return projectRepository.save(project);
     }
 
