@@ -31,6 +31,7 @@ public class DataBootstrap implements CommandLineRunner {
     private final ProjectRepository projectRepository;
     private final LinkRepository linkRepository;
     private final ShortCodeGenerator shortCodeGenerator;
+    private final ApiProperties apiProperties;
 
     @Override
     public void run(String... args) {
@@ -67,8 +68,9 @@ public class DataBootstrap implements CommandLineRunner {
                 teamLinks,
                 Set.of(tagMap.get("documentacao"), tagMap.get("backend")));
 
+        String swaggerUrl = apiProperties.getPublicBaseUrl().replaceAll("/+$", "") + "/swagger-ui.html";
         createLink("Swagger UI",
-                "http://localhost:8080/swagger-ui.html",
+                swaggerUrl,
                 "Documentação interativa da API",
                 teamLinks,
                 Set.of(tagMap.get("documentacao"), tagMap.get("backend")));
